@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+backend/venv/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Node & Frontend
+node_modules/
+frontend/dist/
+frontend/node_modules/
+.npm
+npm-debug.log*
+
+# Database & Runtime Uploads
+*.db-journal
+*.db-wal
+*.db-shm
+data/uploads/*
+!data/uploads/.gitkeep
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

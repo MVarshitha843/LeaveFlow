@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-11-11T15:43:28.192701+00:00",
+  "mode": "full",
+  "seed": 20261022,
+  "anomaly_count": 4,
+  "anomalies": [
+    {
+      "anomaly_type": "DUPLICATE_RECEIPT_HASH",
+      "request_id": "EXP-2026-990002",
+      "employee_id": "EMP-000005",
+      "description": "Two separate claims filed with byte-identical receipt SHA-256 fingerprints."
+    },
+    {
+      "anomaly_type": "ROLLING_WINDOW_SPLIT_CLAIM",
+      "request_id": "EXP-2026-990004",
+      "employee_id": "EMP-000005",
+      "description": "Splitting purchase into two sub-$1,000 invoices within 2 days to bypass executive approval."
+    },
+    {
+      "anomaly_type": "OVERLAPPING_APPROVED_LEAVE",
+      "request_id": "LVE-2026-990002",
+      "employee_id": "EMP-000004",
+      "description": "Two approved leaves overlap on dates July 8 to July 10."
+    },
+    {
+      "anomaly_type": "EXPENSE_OUTSIDE_EMPLOYMENT_DATES",
+      "request_id": "EXP-2026-990005",
+      "employee_id": "EMP-000005",
+      "description": "Filing travel expenses incurred 2 years before commencing employment."
+    }
+  ]
+}
