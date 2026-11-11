@@ -52,10 +52,12 @@ export const ReportsPage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-          <FileText className="w-5 h-5 text-blue-600" />
+          <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+            <FileText className="w-5 h-5" />
+          </span>
           <span>Operational Reports & Regulatory Data Exports</span>
         </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-500 mt-1">
           One-click downloads of verified operational datasets in structured CSV and JSON formats.
         </p>
       </div>
@@ -66,7 +68,7 @@ export const ReportsPage: React.FC = () => {
           return (
             <div
               key={idx}
-              className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition"
+              className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between hover-card-elevate"
             >
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
@@ -86,7 +88,7 @@ export const ReportsPage: React.FC = () => {
                 <a
                   href={r.url}
                   download={r.filename}
-                  className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-sm"
+                  className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition shadow-xs"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download</span>

@@ -4,7 +4,7 @@ import { leaveApi } from '../services/api';
 import { LeavePolicy, LeaveBalance } from '../types';
 import {
   Calendar, CheckCircle2, AlertTriangle, XCircle, ArrowRight,
-  Info, ShieldCheck, FileText, Upload
+  Info, ShieldCheck, FileText, Upload, Sparkles, Clock
 } from 'lucide-react';
 
 export const LeaveApplyPage: React.FC = () => {
@@ -18,7 +18,7 @@ export const LeaveApplyPage: React.FC = () => {
   const [reason, setReason] = useState('');
   const [docUrl, setDocUrl] = useState('');
 
-  // Live dry run evaluation
+  // Live dry run evaluation from backend
   const [dryRunLoading, setDryRunLoading] = useState(false);
   const [dryRunResult, setDryRunResult] = useState<any | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -45,7 +45,7 @@ export const LeaveApplyPage: React.FC = () => {
     }
   };
 
-  // Run dry run when policy, start, or end changes
+  // Run authoritative backend dry run when policy, start, or end changes
   useEffect(() => {
     if (policyId && startDate && endDate && startDate <= endDate) {
       triggerDryRun();
@@ -97,35 +97,43 @@ export const LeaveApplyPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-blue-600" />
-          <span>Apply for Leave</span>
-        </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Submit leave requests evaluated with real-time EFCG constraint checks and automatic holiday exclusions.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+              <Calendar className="w-5 h-5" />
+            </span>
+            <span>Apply for Leave</span>
+          </h1>
+          <p className="text-xs text-slate-500 mt-1">
+            Submit leave requests evaluated with real-time backend EFCG constraint checks and automatic holiday exclusions.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+          <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+          <span>EFCG Constraint Engine Active</span>
+        </div>
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2 shadow-xs">
           <XCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Form Form Column */}
-        <div className="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+        {/* Form Column */}
+        <div className="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
           {/* Policy Selector */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 mb-1.5">
               Leave Category / Policy
             </label>
             <select
               value={policyId}
               onChange={(e) => setPolicyId(e.target.value)}
-              className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-800"
+              className="w-full text-xs py-2.5 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
             >
               {policies.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -141,7 +149,7 @@ export const LeaveApplyPage: React.FC = () => {
           {/* Date Pickers */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Start Date
               </label>
               <input
@@ -149,11 +157,11 @@ export const LeaveApplyPage: React.FC = () => {
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 required
-                className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-800"
+                className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 End Date
               </label>
               <input
@@ -162,14 +170,14 @@ export const LeaveApplyPage: React.FC = () => {
                 min={startDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 required
-                className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-800"
+                className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
               />
             </div>
           </div>
 
           {/* Reason */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 mb-1.5">
               Reason for Absence
             </label>
             <textarea
@@ -177,14 +185,14 @@ export const LeaveApplyPage: React.FC = () => {
               onChange={(e) => setReason(e.target.value)}
               required
               rows={3}
-              placeholder="Provide context for manager review..."
-              className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-800"
+              placeholder="Provide context for manager review and workload coverage..."
+              className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
             />
           </div>
 
           {/* Supporting Document */}
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 mb-1.5">
               Supporting Document URL / Reference (Optional)
             </label>
             <input
@@ -192,7 +200,7 @@ export const LeaveApplyPage: React.FC = () => {
               value={docUrl}
               onChange={(e) => setDocUrl(e.target.value)}
               placeholder="e.g. /uploads/medical_certificate.pdf"
-              className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-slate-800"
+              className="w-full text-xs py-2 px-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
             />
           </div>
 
@@ -210,7 +218,7 @@ export const LeaveApplyPage: React.FC = () => {
         {/* Right Column: Live EFCG Preview & Balance Info */}
         <div className="space-y-4">
           {/* Balance Card */}
-          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
               Policy Balance Headroom
             </span>
@@ -224,10 +232,15 @@ export const LeaveApplyPage: React.FC = () => {
           </div>
 
           {/* Live Dry-Run Results */}
-          {dryRunResult && (
-            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          {dryRunLoading ? (
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs text-center text-xs text-slate-400 space-y-2">
+              <Clock className="w-5 h-5 mx-auto animate-spin text-blue-600" />
+              <p>Computing exact business day exclusions...</p>
+            </div>
+          ) : dryRunResult ? (
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-900">Live EFCG Dry-Run</span>
+                <span className="text-xs font-bold text-slate-900">Backend EFCG Dry-Run</span>
                 <span
                   className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
                     dryRunResult.evaluation.decision_state === 'ELIGIBLE'
@@ -242,7 +255,7 @@ export const LeaveApplyPage: React.FC = () => {
               </div>
 
               {/* Day Calc Breakdown */}
-              <div className="p-3 bg-slate-50 rounded-xl space-y-1.5 text-xs">
+              <div className="p-3 bg-slate-50 rounded-xl space-y-1.5 text-xs border border-slate-100">
                 <div className="flex justify-between text-slate-600">
                   <span>Calendar Days:</span>
                   <span className="font-semibold text-slate-900">{dryRunResult.calculation.calendar_days}d</span>
@@ -265,11 +278,11 @@ export const LeaveApplyPage: React.FC = () => {
               {dryRunResult.calculation.excluded_dates.length > 0 && (
                 <div>
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                    Excluded Calendar Dates
+                    Excluded Statutory Dates
                   </span>
                   <div className="space-y-1 max-h-32 overflow-y-auto">
                     {dryRunResult.calculation.excluded_dates.map((ex: any, idx: number) => (
-                      <div key={idx} className="text-[11px] flex justify-between text-slate-600">
+                      <div key={idx} className="text-[11px] flex justify-between text-slate-600 py-0.5">
                         <span>{ex.date} ({ex.day_of_week})</span>
                         <span className="font-medium text-slate-500">{ex.reason}</span>
                       </div>
@@ -283,22 +296,28 @@ export const LeaveApplyPage: React.FC = () => {
                 {dryRunResult.evaluation.explanation}
               </p>
             </div>
+          ) : (
+            <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs text-slate-500 text-center space-y-1">
+              <Calendar className="w-5 h-5 mx-auto text-slate-400 mb-1" />
+              <p className="font-semibold text-slate-700">Interactive Pre-Validation</p>
+              <p className="text-[11px]">Select start and end dates to calculate exact working days and verify balance headroom in real time.</p>
+            </div>
           )}
         </div>
       </div>
 
       {/* Confirmation Summary Modal */}
       {showSummaryModal && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <h3 className="text-base font-bold text-slate-900">
               Confirm Leave Application Summary
             </h3>
             <p className="text-xs text-slate-500">
-              Please review the calculated absence details before initiating the approval workflow:
+              Review the calculated absence details before dispatching to the approval workflow:
             </p>
 
-            <div className="space-y-2 p-3 bg-slate-50 rounded-xl text-xs text-slate-700">
+            <div className="space-y-2 p-3 bg-slate-50 rounded-xl text-xs text-slate-700 border border-slate-100">
               <div className="flex justify-between">
                 <span className="text-slate-500">Policy:</span>
                 <span className="font-semibold">{selectedPolicy?.name}</span>
@@ -333,7 +352,7 @@ export const LeaveApplyPage: React.FC = () => {
                 type="button"
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition shadow"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition shadow-xs"
               >
                 {submitting ? 'Submitting...' : 'Confirm Submission'}
               </button>

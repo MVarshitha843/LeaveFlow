@@ -75,30 +75,32 @@ export const PolicyGovernancePage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-          <Settings className="w-5 h-5 text-blue-600" />
+          <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+            <Settings className="w-5 h-5" />
+          </span>
           <span>Policy Governance & Rule Versioning</span>
         </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-500 mt-1">
           Configure statutory leave thresholds, expense category allowances, and maintain version history.
         </p>
       </div>
 
       {msg && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
+        <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2 shadow-xs">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{msg}</span>
         </div>
       )}
 
       {/* Leave Policies Section */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
         <h3 className="text-sm font-bold text-slate-900">Configured Leave Policies</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {leavePolicies.map((p) => (
-            <div key={p.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
+            <div key={p.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3 hover-card-elevate">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-xs text-slate-900">{p.name}</span>
-                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-blue-100 text-blue-700">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
                   {p.code}
                 </span>
               </div>
@@ -106,21 +108,21 @@ export const PolicyGovernancePage: React.FC = () => {
               <div className="space-y-1.5 text-xs text-slate-600">
                 <div className="flex justify-between">
                   <span>Days / Year:</span>
-                  <span className="font-semibold text-slate-800">{p.days_per_year}d</span>
+                  <span className="font-bold text-slate-900">{p.days_per_year}d</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Max Consecutive:</span>
-                  <span className="font-semibold text-slate-800">{p.max_consecutive_days}d</span>
+                  <span className="font-bold text-slate-900">{p.max_consecutive_days}d</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Doc Required Above:</span>
-                  <span className="font-semibold text-slate-800">{p.documentation_required_days}d</span>
+                  <span className="font-bold text-slate-900">{p.documentation_required_days}d</span>
                 </div>
               </div>
 
               <button
                 onClick={() => setEditingLeave(p)}
-                className="w-full py-1.5 text-xs font-semibold text-blue-600 hover:bg-blue-50 border border-blue-200 rounded-lg transition flex items-center justify-center gap-1.5"
+                className="w-full py-1.5 text-xs font-bold text-blue-600 hover:bg-blue-50 border border-blue-200 rounded-lg transition flex items-center justify-center gap-1.5 shadow-xs"
               >
                 <Edit3 className="w-3.5 h-3.5" />
                 <span>Adjust Limits</span>
@@ -131,14 +133,14 @@ export const PolicyGovernancePage: React.FC = () => {
       </div>
 
       {/* Expense Policies Section */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
         <h3 className="text-sm font-bold text-slate-900">Expense Category Policy Limits</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {expensePolicies.map((p) => (
-            <div key={p.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
+            <div key={p.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3 hover-card-elevate">
               <div className="flex items-center justify-between">
                 <span className="font-bold text-xs text-slate-900">{p.category}</span>
-                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-700">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
                   {p.currency}
                 </span>
               </div>
@@ -146,21 +148,21 @@ export const PolicyGovernancePage: React.FC = () => {
               <div className="space-y-1.5 text-xs text-slate-600">
                 <div className="flex justify-between">
                   <span>Max / Claim:</span>
-                  <span className="font-semibold text-slate-800">${p.max_per_claim.toFixed(2)}</span>
+                  <span className="font-bold text-slate-900">${p.max_per_claim.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Daily Cap:</span>
-                  <span className="font-semibold text-slate-800">${p.daily_limit.toFixed(2)}</span>
+                  <span className="font-bold text-slate-900">${p.daily_limit.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Receipt Threshold:</span>
-                  <span className="font-semibold text-slate-800">${p.receipt_required_above.toFixed(2)}</span>
+                  <span className="font-bold text-slate-900">${p.receipt_required_above.toFixed(2)}</span>
                 </div>
               </div>
 
               <button
                 onClick={() => setEditingExpense(p)}
-                className="w-full py-1.5 text-xs font-semibold text-blue-600 hover:bg-blue-50 border border-blue-200 rounded-lg transition flex items-center justify-center gap-1.5"
+                className="w-full py-1.5 text-xs font-bold text-blue-600 hover:bg-blue-50 border border-blue-200 rounded-lg transition flex items-center justify-center gap-1.5 shadow-xs"
               >
                 <Edit3 className="w-3.5 h-3.5" />
                 <span>Adjust Limits</span>
@@ -171,14 +173,14 @@ export const PolicyGovernancePage: React.FC = () => {
       </div>
 
       {/* Rule Version History */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
         <h3 className="text-sm font-bold text-slate-900">Governance Rule Versions</h3>
         <div className="space-y-2">
           {versions.length === 0 ? (
             <p className="text-xs text-slate-400">Baseline rule version 1 active.</p>
           ) : (
             versions.map((v) => (
-              <div key={v.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between">
+              <div key={v.id} className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs flex items-center justify-between">
                 <div>
                   <span className="font-bold text-slate-900">{v.rule_type} — Version #{v.version_number}</span>
                   <span className="text-slate-500 block text-[11px]">{v.description}</span>
@@ -194,7 +196,7 @@ export const PolicyGovernancePage: React.FC = () => {
 
       {/* Edit Leave Modal */}
       {editingLeave && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <h3 className="text-sm font-bold text-slate-900">
               Edit Policy: {editingLeave.name}
@@ -202,32 +204,32 @@ export const PolicyGovernancePage: React.FC = () => {
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">Days Allocated Per Year</label>
+                <label className="block text-slate-700 font-bold mb-1">Days Allocated Per Year</label>
                 <input
                   type="number"
                   value={editingLeave.days_per_year}
                   onChange={(e) => setEditingLeave({ ...editingLeave, days_per_year: parseFloat(e.target.value) || 0 })}
-                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300"
+                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300 text-slate-800 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">Max Consecutive Days</label>
+                <label className="block text-slate-700 font-bold mb-1">Max Consecutive Days</label>
                 <input
                   type="number"
                   value={editingLeave.max_consecutive_days}
                   onChange={(e) => setEditingLeave({ ...editingLeave, max_consecutive_days: parseInt(e.target.value) || 0 })}
-                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300"
+                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300 text-slate-800 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">Documentation Required Above (Days)</label>
+                <label className="block text-slate-700 font-bold mb-1">Documentation Required Above (Days)</label>
                 <input
                   type="number"
                   value={editingLeave.documentation_required_days}
                   onChange={(e) => setEditingLeave({ ...editingLeave, documentation_required_days: parseInt(e.target.value) || 0 })}
-                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300"
+                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300 text-slate-800 bg-white"
                 />
               </div>
             </div>
@@ -242,7 +244,7 @@ export const PolicyGovernancePage: React.FC = () => {
               <button
                 onClick={handleSaveLeave}
                 disabled={saving}
-                className="px-3 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                className="px-3 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-xs"
               >
                 {saving ? 'Saving...' : 'Save Rule Version'}
               </button>
@@ -253,7 +255,7 @@ export const PolicyGovernancePage: React.FC = () => {
 
       {/* Edit Expense Modal */}
       {editingExpense && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <h3 className="text-sm font-bold text-slate-900">
               Edit Policy: {editingExpense.category}
@@ -261,32 +263,32 @@ export const PolicyGovernancePage: React.FC = () => {
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">Max Per Claim ($)</label>
+                <label className="block text-slate-700 font-bold mb-1">Max Per Claim ($)</label>
                 <input
                   type="number"
                   value={editingExpense.max_per_claim}
                   onChange={(e) => setEditingExpense({ ...editingExpense, max_per_claim: parseFloat(e.target.value) || 0 })}
-                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300"
+                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300 text-slate-800 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">Daily Limit ($)</label>
+                <label className="block text-slate-700 font-bold mb-1">Daily Limit ($)</label>
                 <input
                   type="number"
                   value={editingExpense.daily_limit}
                   onChange={(e) => setEditingExpense({ ...editingExpense, daily_limit: parseFloat(e.target.value) || 0 })}
-                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300"
+                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300 text-slate-800 bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1">Receipt Required Above ($)</label>
+                <label className="block text-slate-700 font-bold mb-1">Receipt Required Above ($)</label>
                 <input
                   type="number"
                   value={editingExpense.receipt_required_above}
                   onChange={(e) => setEditingExpense({ ...editingExpense, receipt_required_above: parseFloat(e.target.value) || 0 })}
-                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300"
+                  className="w-full py-1.5 px-3 rounded-lg border border-slate-300 text-slate-800 bg-white"
                 />
               </div>
             </div>
@@ -301,7 +303,7 @@ export const PolicyGovernancePage: React.FC = () => {
               <button
                 onClick={handleSaveExpense}
                 disabled={saving}
-                className="px-3 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                className="px-3 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-xs"
               >
                 {saving ? 'Saving...' : 'Save Rule Version'}
               </button>

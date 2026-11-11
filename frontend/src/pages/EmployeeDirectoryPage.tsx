@@ -35,10 +35,12 @@ export const EmployeeDirectoryPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <Users className="w-5 h-5 text-blue-600" />
+            <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+              <Users className="w-5 h-5" />
+            </span>
             <span>Personnel & Organizational Directory</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 mt-1">
             Active corporate employees, reporting hierarchies, and authority structures.
           </p>
         </div>
@@ -51,14 +53,14 @@ export const EmployeeDirectoryPage: React.FC = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, ID or email..."
-              className="pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 w-56 text-slate-800"
+              className="pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 w-56 text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
 
           <select
             value={deptFilter}
             onChange={(e) => setDeptFilter(e.target.value)}
-            className="text-xs py-1.5 px-3 rounded-lg border border-slate-300 bg-white text-slate-700"
+            className="text-xs py-1.5 px-3 rounded-lg border border-slate-300 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
           >
             <option value="">All Departments</option>
             {departments.map((d) => (
@@ -70,10 +72,10 @@ export const EmployeeDirectoryPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
         <table className="w-full text-left text-xs">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-200 text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+            <tr className="bg-slate-50 border-b border-slate-200 text-[10px] text-slate-400 uppercase tracking-wider font-bold">
               <th className="py-3 px-4">Employee ID</th>
               <th className="py-3 px-4">Name</th>
               <th className="py-3 px-4">Role</th>
@@ -89,7 +91,7 @@ export const EmployeeDirectoryPage: React.FC = () => {
             ) : employees.map((emp) => (
               <tr key={emp.id} className="hover:bg-slate-50 transition">
                 <td className="py-3 px-4 font-mono font-bold text-blue-600">{emp.id}</td>
-                <td className="py-3 px-4 font-semibold text-slate-900">
+                <td className="py-3 px-4 font-bold text-slate-900">
                   {emp.first_name} {emp.last_name}
                   <span className="block text-[11px] font-normal text-slate-400">{emp.email}</span>
                 </td>
@@ -98,11 +100,11 @@ export const EmployeeDirectoryPage: React.FC = () => {
                     {emp.role.replace('_', ' ')}
                   </span>
                 </td>
-                <td className="py-3 px-4">{emp.department_name || emp.department_id || '—'}</td>
+                <td className="py-3 px-4 text-slate-700 font-medium">{emp.department_name || emp.department_id || '—'}</td>
                 <td className="py-3 px-4 text-slate-600">{emp.manager_name || 'Executive Officer'}</td>
-                <td className="py-3 px-4 font-mono font-semibold">{emp.grade}</td>
+                <td className="py-3 px-4 font-mono font-bold text-slate-800">{emp.grade}</td>
                 <td className="py-3 px-4">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                     {emp.status}
                   </span>
                 </td>

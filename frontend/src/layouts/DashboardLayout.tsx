@@ -7,7 +7,7 @@ import {
   Calendar, CreditCard, CheckSquare, ShieldAlert, GitBranch,
   BarChart3, Settings, Users, LogOut, Bell, Menu, X, ChevronDown,
   Layers, FileText, CheckCircle2, AlertTriangle, ArrowRight, ShieldCheck,
-  Building, Sparkles
+  Building, Sparkles, HelpCircle
 } from 'lucide-react';
 
 export const DashboardLayout: React.FC = () => {
@@ -78,17 +78,20 @@ export const DashboardLayout: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex text-slate-800">
       {/* Sidebar Desktop */}
-      <aside className="hidden lg:flex flex-col w-64 bg-slate-900 border-r border-slate-800 text-slate-300 select-none shrink-0">
-        <div className="h-16 px-6 flex items-center justify-between border-b border-slate-800">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 font-bold">
+      <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-slate-200 select-none shrink-0 shadow-[1px_0_4px_rgba(0,0,0,0.02)]">
+        {/* Brand Header */}
+        <div className="h-16 px-5 flex items-center justify-between border-b border-slate-100">
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-500/25 font-bold transition group-hover:bg-blue-700">
               LF
             </div>
             <div>
-              <span className="font-bold text-base text-white tracking-tight">LeaveFlow</span>
-              <span className="ml-1.5 text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-blue-900/60 text-blue-300 border border-blue-700/50">
+              <span className="font-bold text-base text-slate-900 tracking-tight group-hover:text-blue-600 transition">
+                LeaveFlow
+              </span>
+              <span className="ml-1.5 text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 font-mono">
                 EFCG
               </span>
             </div>
@@ -96,21 +99,21 @@ export const DashboardLayout: React.FC = () => {
         </div>
 
         {/* User Card */}
-        <div className="p-4 mx-3 my-3 bg-slate-800/60 rounded-xl border border-slate-700/50">
+        <div className="p-3.5 mx-3 my-3 bg-slate-50 rounded-xl border border-slate-200/80">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-semibold text-sm">
-              {user?.first_name[0]}{user?.last_name[0]}
+            <div className="w-10 h-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-700 font-bold text-sm shadow-xs">
+              {user?.first_name?.[0]}{user?.last_name?.[0]}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate">
+              <p className="text-xs font-bold text-slate-900 truncate">
                 {user?.first_name} {user?.last_name}
               </p>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[10px] font-mono text-blue-400 font-medium">
+                <span className="text-[10px] font-mono text-blue-600 font-semibold">
                   {user?.id}
                 </span>
-                <span className="text-slate-600">•</span>
-                <span className="text-[10px] uppercase font-semibold text-slate-400">
+                <span className="text-slate-300">•</span>
+                <span className="text-[10px] uppercase font-bold text-slate-500">
                   {user?.role.replace('_', ' ')}
                 </span>
               </div>
@@ -127,13 +130,17 @@ export const DashboardLayout: React.FC = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                className={`group flex items-center gap-3 px-3 py-2 rounded-lg text-xs transition-all ${
                   active
-                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30 font-semibold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                    ? 'bg-blue-50 text-blue-700 font-bold border-l-2 border-blue-600 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50 font-medium'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-slate-400'}`} />
+                <Icon
+                  className={`w-4 h-4 transition ${
+                    active ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'
+                  }`}
+                />
                 <span>{item.label}</span>
               </Link>
             );
@@ -141,8 +148,8 @@ export const DashboardLayout: React.FC = () => {
         </nav>
 
         {/* Role Quick Switcher in Sidebar footer */}
-        <div className="p-3 border-t border-slate-800">
-          <div className="text-[10px] uppercase tracking-wider text-slate-500 font-semibold px-2 mb-2">
+        <div className="p-3 border-t border-slate-100 bg-slate-50/60">
+          <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold px-1 mb-2">
             Switch Persona (1-Click)
           </div>
           <div className="grid grid-cols-2 gap-1.5">
@@ -150,10 +157,10 @@ export const DashboardLayout: React.FC = () => {
               <button
                 key={dr.role}
                 onClick={() => switchRoleLogin(dr.email)}
-                className={`text-[10px] py-1.5 px-2 rounded text-left truncate transition ${
+                className={`text-[10px] py-1.5 px-2 rounded-md text-left truncate transition ${
                   user?.role === dr.role
-                    ? 'bg-blue-500/20 text-blue-300 font-semibold border border-blue-500/40'
-                    : 'bg-slate-800/40 hover:bg-slate-800 text-slate-400 hover:text-white'
+                    ? 'bg-blue-600 text-white font-bold shadow-xs'
+                    : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200'
                 }`}
               >
                 {dr.role.replace('_', ' ')}
@@ -163,13 +170,52 @@ export const DashboardLayout: React.FC = () => {
 
           <button
             onClick={logout}
-            className="w-full mt-3 flex items-center justify-center gap-2 py-2 text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-950/30 rounded-lg transition"
+            className="w-full mt-3 flex items-center justify-center gap-2 py-1.5 text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition font-medium"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>
           </button>
         </div>
       </aside>
+
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden flex">
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs" onClick={() => setSidebarOpen(false)} />
+          <div className="relative flex flex-col w-72 bg-white h-full shadow-2xl z-10">
+            <div className="h-16 px-5 flex items-center justify-between border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">
+                  LF
+                </div>
+                <span className="font-bold text-slate-900">LeaveFlow</span>
+              </div>
+              <button onClick={() => setSidebarOpen(false)} className="p-1 rounded text-slate-500 hover:bg-slate-100">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+              {filteredNav.map((item) => {
+                const Icon = item.icon;
+                const active = location.pathname === item.path;
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setSidebarOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold ${
+                      active ? 'bg-blue-50 text-blue-700 border-l-2 border-blue-600' : 'text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 ${active ? 'text-blue-600' : 'text-slate-400'}`} />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -187,7 +233,7 @@ export const DashboardLayout: React.FC = () => {
                 LeaveFlow Intelligence
               </span>
               <span className="text-slate-300">/</span>
-              <span className="text-sm font-bold text-slate-800 capitalize">
+              <span className="text-sm font-bold text-slate-900 capitalize">
                 {location.pathname.replace('/', '').replace('-', ' ') || 'Dashboard'}
               </span>
             </div>
@@ -198,16 +244,16 @@ export const DashboardLayout: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setRoleMenuOpen(!roleMenuOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 transition shadow-sm"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 transition shadow-xs"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Active: <strong className="text-blue-600 font-semibold">{user?.role}</strong></span>
+                <span>Active: <strong className="text-blue-600 font-bold">{user?.role}</strong></span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
               {roleMenuOpen && (
                 <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50">
-                  <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                  <div className="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
                     Switch Test Account
                   </div>
                   {demoRoles.map((dr) => (
@@ -219,7 +265,7 @@ export const DashboardLayout: React.FC = () => {
                       }}
                       className="w-full text-left px-3 py-2 text-xs hover:bg-slate-50 flex items-center justify-between text-slate-700"
                     >
-                      <span className="font-medium">{dr.label}</span>
+                      <span className="font-semibold">{dr.label}</span>
                       {user?.role === dr.role && (
                         <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
                       )}
@@ -233,7 +279,7 @@ export const DashboardLayout: React.FC = () => {
             <div className="relative">
               <button
                 onClick={() => setNotifOpen(!notifOpen)}
-                className="relative p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition"
+                className="relative p-2 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition"
               >
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
@@ -246,15 +292,15 @@ export const DashboardLayout: React.FC = () => {
               {/* Notification Drawer Popover */}
               {notifOpen && (
                 <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-2xl border border-slate-200 z-50 overflow-hidden">
-                  <div className="px-4 py-3 bg-slate-900 text-white flex items-center justify-between">
+                  <div className="px-4 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Bell className="w-4 h-4 text-blue-400" />
-                      <span className="text-xs font-bold uppercase tracking-wider">Notifications</span>
+                      <Bell className="w-4 h-4 text-blue-600" />
+                      <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">Notifications</span>
                     </div>
                     {unreadCount > 0 && (
                       <button
                         onClick={handleMarkAllRead}
-                        className="text-[11px] text-blue-300 hover:text-white transition font-medium"
+                        className="text-[11px] text-blue-600 hover:text-blue-700 font-semibold"
                       >
                         Mark all read
                       </button>
@@ -275,11 +321,11 @@ export const DashboardLayout: React.FC = () => {
                             setNotifOpen(false);
                           }}
                           className={`p-3.5 text-xs hover:bg-slate-50 cursor-pointer transition ${
-                            n.is_read === 0 ? 'bg-blue-50/50' : ''
+                            n.is_read === 0 ? 'bg-blue-50/40' : ''
                           }`}
                         >
                           <div className="flex items-center justify-between mb-1">
-                            <span className="font-semibold text-slate-800">{n.title}</span>
+                            <span className="font-bold text-slate-900">{n.title}</span>
                             <span className="text-[10px] text-slate-400">
                               {new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
@@ -296,7 +342,7 @@ export const DashboardLayout: React.FC = () => {
         </header>
 
         {/* Content Body */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8">
+        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-50">
           <Outlet />
         </main>
       </div>

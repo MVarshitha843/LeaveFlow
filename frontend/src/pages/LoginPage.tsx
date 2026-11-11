@@ -54,24 +54,24 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col justify-center py-12 px-6 sm:px-8">
+    <div className="min-h-screen bg-slate-50 bg-mesh-grid flex flex-col justify-center py-12 px-6 sm:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center mb-8">
-        <Link to="/" className="inline-flex items-center gap-2.5 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/25">
+        <Link to="/" className="inline-flex items-center gap-2.5 mb-4 group">
+          <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/25 group-hover:bg-blue-700 transition">
             LF
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">LeaveFlow</span>
+          <span className="text-xl font-bold text-slate-900 tracking-tight">LeaveFlow</span>
         </Link>
-        <h2 className="text-2xl font-bold tracking-tight text-white">
+        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
           Sign In to Your Workspace
         </h2>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-slate-500 mt-1">
           Evidence-First Leave & Expense Intelligence Platform
         </p>
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-6 sm:px-8 shadow-2xl rounded-2xl border border-slate-200">
+        <div className="bg-white py-8 px-6 sm:px-8 shadow-xl rounded-2xl border border-slate-200">
           {error && (
             <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -81,8 +81,8 @@ export const LoginPage: React.FC = () => {
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Email Address
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Corporate Email Address
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -91,14 +91,14 @@ export const LoginPage: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="name@company.com"
-                  className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800"
+                  placeholder="name@leaveflow.internal"
+                  className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Password
               </label>
               <div className="relative">
@@ -109,7 +109,7 @@ export const LoginPage: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••••••"
-                  className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800"
+                  className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-800 bg-white"
                 />
               </div>
             </div>
@@ -119,21 +119,21 @@ export const LoginPage: React.FC = () => {
               disabled={loading}
               className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
+              <span>{loading ? 'Authenticating...' : 'Sign In to Workspace'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
           {/* 1-Click Demo Accounts Quick Switcher */}
           <div className="mt-6 pt-6 border-t border-slate-100">
-            <div className="flex items-center gap-1.5 mb-3">
+            <div className="flex items-center gap-1.5 mb-2">
               <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              <span className="text-xs font-bold text-slate-800">
-                1-Click Demo Accounts (Instant Testing)
+              <span className="text-xs font-bold text-slate-900">
+                1-Click Verified Demo Accounts
               </span>
             </div>
             <p className="text-[11px] text-slate-500 mb-3">
-              Click any role to log in immediately with pre-configured authority:
+              Click any role to log in with authentic authority credentials:
             </p>
 
             <div className="grid grid-cols-1 gap-2">
@@ -149,7 +149,7 @@ export const LoginPage: React.FC = () => {
                   type="button"
                   onClick={() => handleQuickDemoLogin(account.email)}
                   disabled={loading}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 hover:border-blue-500/50 hover:bg-blue-50/40 text-left transition flex items-center justify-between group"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 text-left transition flex items-center justify-between group bg-slate-50/50"
                 >
                   <div>
                     <span className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition">

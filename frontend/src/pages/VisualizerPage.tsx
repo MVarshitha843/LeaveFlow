@@ -5,7 +5,7 @@ import { EFCGGraph, GraphNode } from '../types';
 import {
   GitBranch, CheckCircle2, AlertTriangle, XCircle, Search,
   ZoomIn, ZoomOut, RotateCcw, ShieldCheck, Clock, FileText, ArrowRight,
-  Filter, Cpu, Info
+  Filter, Cpu, Info, Check, Sparkles
 } from 'lucide-react';
 
 export const VisualizerPage: React.FC = () => {
@@ -80,29 +80,29 @@ export const VisualizerPage: React.FC = () => {
     switch (status) {
       case 'PASS':
         return {
-          bg: 'bg-emerald-50 border-emerald-500/80 text-emerald-950',
-          badge: 'bg-emerald-600 text-white',
+          bg: 'bg-white border-emerald-500/80 text-emerald-950',
+          badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
           icon: CheckCircle2,
-          border: 'border-emerald-400',
+          border: 'border-emerald-300',
         };
       case 'FAIL':
         return {
-          bg: 'bg-rose-50 border-rose-500/80 text-rose-950',
-          badge: 'bg-rose-600 text-white',
+          bg: 'bg-white border-rose-500/80 text-rose-950',
+          badge: 'bg-rose-50 text-rose-700 border border-rose-200',
           icon: XCircle,
-          border: 'border-rose-400',
+          border: 'border-rose-300',
         };
       case 'REVIEW':
         return {
-          bg: 'bg-amber-50 border-amber-500/80 text-amber-950',
-          badge: 'bg-amber-600 text-white',
+          bg: 'bg-white border-amber-500/80 text-amber-950',
+          badge: 'bg-amber-50 text-amber-700 border border-amber-200',
           icon: AlertTriangle,
-          border: 'border-amber-400',
+          border: 'border-amber-300',
         };
       default:
         return {
-          bg: 'bg-slate-50 border-slate-300 text-slate-700',
-          badge: 'bg-slate-500 text-white',
+          bg: 'bg-white border-slate-300 text-slate-700',
+          badge: 'bg-slate-50 text-slate-600 border border-slate-200',
           icon: Info,
           border: 'border-slate-300',
         };
@@ -143,10 +143,10 @@ export const VisualizerPage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Header & Controls */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-1.5 rounded-lg bg-blue-100 text-blue-700">
+            <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
               <GitBranch className="w-5 h-5" />
             </span>
             <h1 className="text-xl font-bold text-slate-900 tracking-tight">
@@ -168,12 +168,12 @@ export const VisualizerPage: React.FC = () => {
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
                 placeholder="Request ID (e.g. LVE-...)"
-                className="pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 w-44 font-mono"
+                className="pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 w-44 font-mono bg-white text-slate-800"
               />
             </div>
             <button
               type="submit"
-              className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition shadow-sm"
+              className="px-3.5 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-700 transition shadow-xs"
             >
               Inspect
             </button>
@@ -202,32 +202,32 @@ export const VisualizerPage: React.FC = () => {
       {loading ? (
         <div className="bg-white rounded-2xl border border-slate-200 p-16 flex flex-col items-center justify-center text-slate-400 gap-3">
           <Cpu className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="text-xs font-semibold uppercase tracking-wider">Evaluating Constraint Topology...</span>
+          <span className="text-xs font-bold uppercase tracking-wider">Evaluating Constraint Topology...</span>
         </div>
       ) : error ? (
-        <div className="bg-white rounded-2xl border border-rose-200 p-12 text-center text-rose-600">
+        <div className="bg-white rounded-2xl border border-rose-200 p-12 text-center text-rose-600 shadow-xs">
           <XCircle className="w-10 h-10 mx-auto mb-2 text-rose-500" />
-          <p className="font-semibold text-sm">{error}</p>
+          <p className="font-bold text-sm">{error}</p>
           <p className="text-xs text-slate-500 mt-1">Please enter a valid Leave or Expense Request ID.</p>
         </div>
       ) : graphData ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left 2 Cols: Graph Canvas */}
-          <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+          <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col overflow-hidden">
             {/* Canvas Toolbar */}
             <div className="px-5 py-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">
                   Target: <strong className="text-blue-600 font-mono">{graphData.request_id}</strong>
                 </span>
                 <span className="text-slate-300">•</span>
                 <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border ${
                     graphData.decision_state === 'ELIGIBLE'
-                      ? 'bg-emerald-100 text-emerald-800'
+                      ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
                       : graphData.decision_state === 'BLOCKED'
-                      ? 'bg-rose-100 text-rose-800'
-                      : 'bg-amber-100 text-amber-800'
+                      ? 'bg-rose-50 text-rose-800 border-rose-200'
+                      : 'bg-amber-50 text-amber-800 border-amber-200'
                   }`}
                 >
                   {graphData.decision_state}
@@ -236,12 +236,12 @@ export const VisualizerPage: React.FC = () => {
 
               {/* Filters & Zoom */}
               <div className="flex items-center gap-2">
-                <div className="flex items-center bg-white rounded-lg border border-slate-200 p-0.5">
+                <div className="flex items-center bg-white rounded-lg border border-slate-200 p-0.5 shadow-xs">
                   {(['ALL', 'FAIL', 'REVIEW', 'PASS'] as const).map((m) => (
                     <button
                       key={m}
                       onClick={() => setFilterMode(m)}
-                      className={`text-[10px] px-2 py-0.5 rounded font-semibold transition ${
+                      className={`text-[10px] px-2 py-0.5 rounded font-bold transition ${
                         filterMode === m
                           ? 'bg-blue-600 text-white'
                           : 'text-slate-600 hover:text-slate-900'
@@ -279,7 +279,7 @@ export const VisualizerPage: React.FC = () => {
             </div>
 
             {/* Visual Canvas */}
-            <div className="p-8 overflow-auto min-h-[500px] flex items-center justify-center bg-slate-50/50">
+            <div className="p-8 overflow-auto min-h-[500px] flex items-center justify-center bg-slate-50/40 bg-mesh-grid">
               <div
                 className="flex items-center gap-12 transition-transform duration-200"
                 style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center center' }}
@@ -299,16 +299,16 @@ export const VisualizerPage: React.FC = () => {
                         <div
                           key={node.id}
                           onClick={() => setSelectedNode(node)}
-                          className={`w-64 p-3.5 rounded-xl border-2 transition-all cursor-pointer relative shadow-sm ${
+                          className={`w-64 p-3.5 rounded-xl border-2 transition-all cursor-pointer relative shadow-xs ${
                             isSelected
-                              ? 'ring-4 ring-blue-500/20 shadow-md scale-[1.02]'
+                              ? 'ring-4 ring-blue-500/20 shadow-md scale-[1.02] border-blue-600'
                               : 'hover:shadow'
                           } ${color.bg} ${isSelected ? 'border-blue-600' : color.border} ${
                             isDimmed ? 'opacity-30' : 'opacity-100'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2 mb-1.5">
-                            <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-500">
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500">
                               {node.category}
                             </span>
                             <span
@@ -327,15 +327,15 @@ export const VisualizerPage: React.FC = () => {
                             {node.description}
                           </p>
 
-                          <div className="mt-2.5 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] text-slate-500">
+                          <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
                             <span>
                               {node.is_blocking ? (
-                                <strong className="text-rose-600">Blocking</strong>
+                                <strong className="text-rose-600 font-bold">Blocking</strong>
                               ) : (
                                 'Non-blocking'
                               )}
                             </span>
-                            <span className="font-mono">{node.execution_time_ms} ms</span>
+                            <span className="font-mono text-slate-400">{node.execution_time_ms} ms</span>
                           </div>
                         </div>
                       );
@@ -362,7 +362,7 @@ export const VisualizerPage: React.FC = () => {
           </div>
 
           {/* Right Col: Evidence Inspector Drawer */}
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 flex flex-col">
             <div className="flex items-center justify-between pb-4 border-b border-slate-200">
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Evidence Inspector</h3>
@@ -370,7 +370,7 @@ export const VisualizerPage: React.FC = () => {
               </div>
               {selectedNode && (
                 <span
-                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase border ${
                     getNodeStatusColor(selectedNode.status).badge
                   }`}
                 >
@@ -387,7 +387,7 @@ export const VisualizerPage: React.FC = () => {
                     Constraint Node ID
                   </span>
                   <div className="font-mono text-xs font-bold text-slate-900">{selectedNode.id}</div>
-                  <div className="font-semibold text-slate-800 text-sm mt-0.5">{selectedNode.name}</div>
+                  <div className="font-bold text-slate-800 text-sm mt-0.5">{selectedNode.name}</div>
                   <p className="text-slate-600 text-xs mt-1 leading-relaxed">{selectedNode.description}</p>
                 </div>
 
@@ -405,53 +405,44 @@ export const VisualizerPage: React.FC = () => {
 
                     <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                        Actual Observed Evidence
+                        Actual Evaluated Condition
                       </span>
                       <p className="text-slate-800 font-medium leading-relaxed">
                         {selectedNode.evidence.actual_condition}
                       </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-200/80">
-                      <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider block mb-1">
-                        Evaluator Reasoning
-                      </span>
-                      <p className="text-blue-950 font-medium leading-relaxed">
-                        {selectedNode.evidence.reason}
-                      </p>
-                    </div>
-
-                    {/* Metadata Grid */}
-                    <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
-                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                        <span className="text-[10px] text-slate-400 block font-semibold">Source</span>
-                        <span className="font-medium text-slate-800 truncate block">
-                          {selectedNode.evidence.evidence_source}
+                    {selectedNode.evidence.details?.cryptographic_hash && (
+                      <div className="p-3 rounded-xl bg-blue-50/50 border border-blue-200">
+                        <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider block mb-1">
+                          Verifiable Evidence Hash
                         </span>
+                        <p className="font-mono text-[10px] text-blue-900 break-all">
+                          {selectedNode.evidence.details.cryptographic_hash}
+                        </p>
                       </div>
-                      <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                        <span className="text-[10px] text-slate-400 block font-semibold">Execution Time</span>
-                        <span className="font-medium text-slate-800 font-mono">
-                          {selectedNode.execution_time_ms} ms
-                        </span>
-                      </div>
-                    </div>
+                    )}
 
-                    {/* Timestamp */}
-                    <div className="text-[10px] text-slate-400 flex items-center gap-1 pt-1">
-                      <Clock className="w-3 h-3" />
-                      <span>Evaluated at: {new Date(selectedNode.evidence.timestamp).toLocaleString()}</span>
-                    </div>
+                    {selectedNode.evidence.reason && (
+                      <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          Evaluation Finding
+                        </span>
+                        <p className="text-slate-700 leading-relaxed text-[11px]">
+                          {selectedNode.evidence.reason}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 ) : (
-                  <div className="p-6 text-center text-slate-400 bg-slate-50 rounded-xl">
-                    Evaluation skipped or dependency blocked.
+                  <div className="p-4 rounded-xl bg-slate-50 text-slate-400 text-center">
+                    No evidence payload recorded for this node.
                   </div>
                 )}
               </div>
             ) : (
-              <div className="p-12 text-center text-slate-400">
-                Select any node from the canvas to view its supporting evidence.
+              <div className="p-8 text-center text-slate-400 text-xs">
+                Select a constraint node on the graph to inspect evidence.
               </div>
             )}
           </div>

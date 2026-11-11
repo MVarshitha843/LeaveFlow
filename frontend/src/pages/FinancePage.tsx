@@ -45,7 +45,7 @@ export const FinancePage: React.FC = () => {
     setMsg(null);
     try {
       const res = await approvalApi.reimburse(claimId);
-      setMsg(`Reimbursement of $${res.data.amount.toFixed(2)} disbursed! Transaction: ${res.data.transaction_ref}`);
+      setMsg(`Reimbursement of $${res.data.amount.toFixed(2)} recorded! Transaction reference: ${res.data.transaction_ref}`);
       loadFinanceData();
     } catch (err: any) {
       alert(err.response?.data?.detail || 'Failed to process reimbursement');
@@ -62,16 +62,18 @@ export const FinancePage: React.FC = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-          <Building className="w-5 h-5 text-blue-600" />
+          <span className="p-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200">
+            <Building className="w-5 h-5" />
+          </span>
           <span>Finance & Cost Center Intelligence Portal</span>
         </h1>
-        <p className="text-xs text-slate-500 mt-0.5">
+        <p className="text-xs text-slate-500 mt-1">
           Departmental budget utilization, financial reserve ledgers, and disbursement settlement operations.
         </p>
       </div>
 
       {msg && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2">
+        <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl flex items-center gap-2 shadow-xs">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{msg}</span>
         </div>
@@ -79,32 +81,32 @@ export const FinancePage: React.FC = () => {
 
       {/* Financial Overview Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
             Total Corporate Budget
           </span>
           <span className="text-2xl font-extrabold text-slate-900 tabular-nums">
             ${totalBudget.toLocaleString()}
           </span>
-          <span className="text-xs text-slate-500 block mt-1">FY 2026 Allocated Operating Capital</span>
+          <span className="text-xs text-slate-500 block mt-1">FY 2026 Operating Capital</span>
         </div>
 
-        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
             Current Committed Spend
           </span>
           <span className="text-2xl font-extrabold text-slate-900 tabular-nums">
             ${totalSpend.toLocaleString()}
           </span>
-          <div className="w-full bg-slate-100 rounded-full h-1.5 mt-2">
+          <div className="w-full bg-slate-100 rounded-full h-1.5 mt-2 overflow-hidden">
             <div
               className="bg-blue-600 h-1.5 rounded-full"
-              style={{ width: `${Math.min((totalSpend / totalBudget) * 100, 100)}%` }}
+              style={{ width: `${totalBudget > 0 ? Math.min((totalSpend / totalBudget) * 100, 100) : 0}%` }}
             />
           </div>
         </div>
 
-        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-sm">
+        <div className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs">
           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
             Resource Reservation Holds
           </span>
@@ -116,22 +118,22 @@ export const FinancePage: React.FC = () => {
       </div>
 
       {/* Department Budgets Grid */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
         <h3 className="text-sm font-bold text-slate-900">Departmental Budget Headroom</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {departments.map((d) => {
             const pct = d.annual_budget > 0 ? (d.current_spend / d.annual_budget) * 100 : 0;
             return (
-              <div key={d.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+              <div key={d.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2 hover-card-elevate">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-xs text-slate-900">{d.name}</span>
-                  <span className="text-[10px] font-mono font-bold text-blue-600">{d.code}</span>
+                  <span className="text-[10px] font-mono font-bold text-blue-600 px-1.5 py-0.5 rounded bg-blue-50 border border-blue-200">{d.code}</span>
                 </div>
                 <div className="flex justify-between text-xs text-slate-600 pt-1">
                   <span>Spend: ${d.current_spend.toLocaleString()}</span>
                   <span>Budget: ${d.annual_budget.toLocaleString()}</span>
                 </div>
-                <div className="w-full bg-slate-200 rounded-full h-2">
+                <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                   <div
                     className={`h-2 rounded-full ${
                       pct > 90 ? 'bg-rose-500' : pct > 70 ? 'bg-amber-500' : 'bg-emerald-500'
@@ -141,7 +143,7 @@ export const FinancePage: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-[11px] text-slate-500 pt-1">
                   <span>Available: ${d.available_budget.toLocaleString()}</span>
-                  <span className="font-bold">{pct.toFixed(1)}%</span>
+                  <span className="font-bold text-slate-700">{pct.toFixed(1)}%</span>
                 </div>
               </div>
             );
@@ -150,14 +152,14 @@ export const FinancePage: React.FC = () => {
       </div>
 
       {/* Approved Claims Ready for Disbursement */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-sm font-bold text-slate-900">
               Approved Claims Queued for Reimbursement
             </h3>
             <p className="text-xs text-slate-500">
-              Fully approved expense claims authorized for payment settlement
+              Fully approved expense claims authorized for internal disbursement settlement
             </p>
           </div>
           <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -168,7 +170,7 @@ export const FinancePage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-100 text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
+              <tr className="border-b border-slate-100 text-[10px] text-slate-400 uppercase tracking-wider font-bold">
                 <th className="pb-2.5">Claim ID</th>
                 <th className="pb-2.5">Applicant</th>
                 <th className="pb-2.5">Cost Center</th>
@@ -190,9 +192,9 @@ export const FinancePage: React.FC = () => {
                     <td className="py-3 font-mono font-bold text-blue-600">
                       <Link to={`/requests/${c.id}`}>{c.id}</Link>
                     </td>
-                    <td className="py-3 font-medium">{c.employee_name}</td>
+                    <td className="py-3 font-semibold text-slate-900">{c.employee_name}</td>
                     <td className="py-3 text-slate-500">{c.cost_center_name}</td>
-                    <td className="py-3">{c.merchant}</td>
+                    <td className="py-3 text-slate-700">{c.merchant}</td>
                     <td className="py-3 font-bold text-slate-900 tabular-nums">
                       ${c.total_amount.toFixed(2)}
                     </td>
@@ -200,9 +202,9 @@ export const FinancePage: React.FC = () => {
                       <button
                         onClick={() => handleDisburseReimbursement(c.id)}
                         disabled={reimbursingId === c.id}
-                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition shadow-sm"
+                        className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition shadow-xs disabled:opacity-50"
                       >
-                        {reimbursingId === c.id ? 'Processing...' : 'Disburse (ACH)'}
+                        {reimbursingId === c.id ? 'Recording...' : 'Disburse Reimbursement'}
                       </button>
                     </td>
                   </tr>
