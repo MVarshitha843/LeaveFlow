@@ -25,6 +25,11 @@ npm-debug.log*
 data/uploads/*
 !data/uploads/.gitkeep
 
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
 # IDE & OS
 .idea/
 .DS_Store

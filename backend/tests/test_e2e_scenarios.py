@@ -1,6 +1,7 @@
 import pytest
 import uuid
 import hashlib
+import random
 from datetime import date, timedelta
 from decimal import Decimal
 from fastapi.testclient import TestClient
@@ -9,14 +10,20 @@ def test_scenario_a_leave_lifecycle_complete(client: TestClient, employee_token:
     """
     Scenario A: Employee submits leave -> EFCG evaluation -> Eligible -> Manager approval -> Commitment -> Audit.
     """
-    # 1. Employee submits leave (using 2027 dates to avoid overlap with 2026 dataset)
+    # 1. Employee submits leave (using dynamic future date to guarantee zero overlap across test runs)
+    offset = random.randint(500, 20000)
+    start_d = date(2028, 1, 1) + timedelta(days=offset)
+    while start_d.weekday() > 2:  # Ensure Monday-Wednesday (avoiding weekend)
+        start_d += timedelta(days=1)
+    end_d = start_d + timedelta(days=2)
+
     resp = client.post(
         "/api/leave/requests",
         headers={"Authorization": f"Bearer {employee_token}"},
         json={
             "policy_id": "POL-ANNUAL",
-            "start_date": "2027-04-05",
-            "end_date": "2027-04-07",
+            "start_date": start_d.isoformat(),
+            "end_date": end_d.isoformat(),
             "reason": "Spring vacation"
         }
     )
