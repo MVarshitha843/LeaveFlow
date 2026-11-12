@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { leaveApi, expenseApi, approvalApi, auditApi, decisionApi } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { getAvatarUrl } from '../utils/avatars';
 import {
   Layers, CheckCircle2, Clock, XCircle, AlertTriangle, GitBranch,
   ShieldCheck, FileText, ArrowLeft, ArrowRight, UserCheck, Calendar, CreditCard,
@@ -221,28 +222,35 @@ export const RequestTrackingPage: React.FC = () => {
 
       {/* Main Request Header Card */}
       <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-mono text-base font-bold text-slate-900">{requestData.id}</span>
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 uppercase">
-              {requestData.isLeave ? 'Leave Request' : 'Expense Claim'}
-            </span>
-            <span
-              className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase border ${
-                requestData.status === 'APPROVED' || requestData.status === 'REIMBURSED'
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                  : requestData.status === 'REJECTED' || requestData.status === 'CANCELLED'
-                  ? 'bg-rose-50 text-rose-700 border-rose-200'
-                  : 'bg-blue-50 text-blue-700 border-blue-200'
-              }`}
-            >
-              {requestData.status.replace('_', ' ')}
-            </span>
-          </div>
+        <div className="flex items-center gap-3.5">
+          <img
+            src={getAvatarUrl(requestData.employee_id, 'EMPLOYEE')}
+            alt=""
+            className="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-xs shrink-0"
+          />
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-mono text-base font-bold text-slate-900">{requestData.id}</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 uppercase">
+                {requestData.isLeave ? 'Leave Request' : 'Expense Claim'}
+              </span>
+              <span
+                className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase border ${
+                  requestData.status === 'APPROVED' || requestData.status === 'REIMBURSED'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    : requestData.status === 'REJECTED' || requestData.status === 'CANCELLED'
+                    ? 'bg-rose-50 text-rose-700 border-rose-200'
+                    : 'bg-blue-50 text-blue-700 border-blue-200'
+                }`}
+              >
+                {requestData.status.replace('_', ' ')}
+              </span>
+            </div>
 
-          <p className="text-xs text-slate-600 mt-1">
-            Submitted by <strong>{requestData.employee_name}</strong> on {new Date(requestData.created_at).toLocaleDateString()}
-          </p>
+            <p className="text-xs text-slate-600 mt-1">
+              Submitted by <strong>{requestData.employee_name}</strong> on {new Date(requestData.created_at).toLocaleDateString()}
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-4 border-t md:border-t-0 md:border-l border-slate-100 pt-3 md:pt-0 md:pl-6 text-right">

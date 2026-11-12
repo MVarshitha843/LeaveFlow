@@ -88,6 +88,10 @@ def test_tamper_evident_audit_chain_verification(db_session):
     assert integrity["is_valid"] is True
     assert integrity["total_events"] > 0
 
+    # Cleanup
+    db_session.delete(ev1)
+    db_session.commit()
+
 def test_audit_chain_tamper_detection(db_session):
     # Record event
     ev = AuditService.record_event(
@@ -110,3 +114,7 @@ def test_audit_chain_tamper_detection(db_session):
     assert tamper_check["is_valid"] is False
     assert tamper_check["error_type"] == "PAYLOAD_TAMPERED"
     assert tamper_check["corrupted_event_id"] == ev.id
+
+    # Cleanup so chain integrity is preserved
+    db_session.delete(ev_record)
+    db_session.commit()

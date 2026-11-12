@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { approvalApi } from '../services/api';
 import { PendingApprovalItem } from '../types';
+import { getAvatarUrl } from '../utils/avatars';
 import {
   CheckSquare, CheckCircle2, XCircle, HelpCircle, ArrowRight,
   GitBranch, Clock, UserCheck, AlertTriangle, ShieldCheck
@@ -130,31 +131,38 @@ export const ApprovalsPage: React.FC = () => {
                 key={item.step_id}
                 className="p-5 hover:bg-slate-50/70 transition flex flex-col md:flex-row md:items-center justify-between gap-4"
               >
-                <div className="space-y-1.5 flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-blue-600">
-                      <Link to={`/requests/${item.request_id}`}>{item.request_id}</Link>
-                    </span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
-                      {item.request_type}
-                    </span>
-                    <span className="text-slate-300">•</span>
-                    <span className="text-xs font-bold text-slate-900">{item.applicant_name}</span>
-                    <span className="text-slate-400 text-xs">({item.applicant_id})</span>
-                  </div>
+                <div className="flex items-start gap-3.5 flex-1 min-w-0">
+                  <img
+                    src={getAvatarUrl(item.applicant_id, 'EMPLOYEE')}
+                    alt=""
+                    className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-xs shrink-0 mt-0.5"
+                  />
+                  <div className="space-y-1.5 flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-blue-600">
+                        <Link to={`/requests/${item.request_id}`}>{item.request_id}</Link>
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+                        {item.request_type}
+                      </span>
+                      <span className="text-slate-300">•</span>
+                      <span className="text-xs font-bold text-slate-900">{item.applicant_name}</span>
+                      <span className="text-slate-400 text-xs">({item.applicant_id})</span>
+                    </div>
 
-                  <p className="text-xs text-slate-700 font-medium leading-relaxed">
-                    {item.summary}
-                  </p>
+                    <p className="text-xs text-slate-700 font-medium leading-relaxed">
+                      {item.summary}
+                    </p>
 
-                  <div className="flex items-center gap-4 text-[11px] text-slate-400 pt-1">
-                    <span className="flex items-center gap-1 font-medium text-slate-600">
-                      Amount/Duration: <strong className="text-slate-900">{item.request_type === 'LEAVE' ? `${item.amount_or_days} business days` : `$${item.amount_or_days.toFixed(2)}`}</strong>
-                    </span>
-                    <span>•</span>
-                    <span>Assigned Step #{item.step_order}</span>
-                    <span>•</span>
-                    <span>{new Date(item.created_at).toLocaleDateString()}</span>
+                    <div className="flex items-center gap-4 text-[11px] text-slate-400 pt-1">
+                      <span className="flex items-center gap-1 font-medium text-slate-600">
+                        Amount/Duration: <strong className="text-slate-900">{item.request_type === 'LEAVE' ? `${item.amount_or_days} business days` : `$${item.amount_or_days.toFixed(2)}`}</strong>
+                      </span>
+                      <span>•</span>
+                      <span>Assigned Step #{item.step_order}</span>
+                      <span>•</span>
+                      <span>{new Date(item.created_at).toLocaleDateString()}</span>
+                    </div>
                   </div>
                 </div>
 
@@ -204,9 +212,17 @@ export const ApprovalsPage: React.FC = () => {
               {actionType === 'REQUEST_INFO' && 'Request Additional Evidence'}
             </h3>
 
-            <p className="text-xs text-slate-600">
-              Target Request: <strong className="text-slate-900 font-mono">{selectedItem.request_id}</strong> ({selectedItem.applicant_name})
-            </p>
+            <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+              <img
+                src={getAvatarUrl(selectedItem.applicant_id, 'EMPLOYEE')}
+                alt=""
+                className="w-9 h-9 rounded-full object-cover border border-slate-200"
+              />
+              <div className="text-xs">
+                <span className="font-bold text-slate-900 block">{selectedItem.applicant_name}</span>
+                <span className="font-mono text-[11px] text-blue-600 font-semibold">{selectedItem.request_id} • {selectedItem.request_type}</span>
+              </div>
+            </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1.5">

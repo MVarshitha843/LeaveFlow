@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { leaveApi, expenseApi, analyticsApi } from '../services/api';
 import { LeaveBalance, LeaveRequest, ExpenseClaim, AnalyticsOverview } from '../types';
+import { getAvatarUrl, TEAM_PORTRAITS } from '../utils/avatars';
 import {
   Calendar, CreditCard, Clock, CheckCircle2, XCircle, AlertTriangle,
   ArrowRight, PlusCircle, TrendingUp, ShieldCheck, DollarSign, Layers,
@@ -63,7 +64,7 @@ export const EmployeeDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Welcome Hero Card */}
-      <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/90 shadow-sm relative overflow-hidden">
+      <div className="bg-white rounded-2xl p-6 md:p-8 border border-slate-200/90 shadow-sm relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50/70 rounded-full blur-3xl -z-10" />
 
         <div className="relative z-10 max-w-2xl">
@@ -72,9 +73,24 @@ export const EmployeeDashboard: React.FC = () => {
             <span>Explainable Workforce Intelligence</span>
           </div>
 
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">
-            Welcome back, {user?.first_name}!
-          </h1>
+          <div className="flex items-center gap-4 mb-2">
+            <div className="relative">
+              <img
+                src={getAvatarUrl(user?.email, user?.role)}
+                alt={`${user?.first_name} ${user?.last_name}`}
+                className="w-14 h-14 rounded-2xl object-cover border-2 border-white shadow-md ring-2 ring-blue-500/20"
+              />
+              <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900">
+                Welcome back, {user?.first_name}!
+              </h1>
+              <p className="text-xs text-slate-500 font-medium">
+                {user?.role.replace('_', ' ')} • ID: <span className="font-mono text-blue-600 font-semibold">{user?.id}</span>
+              </p>
+            </div>
+          </div>
 
           <p className="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed">
             Your requests are evaluated by the Evidence-First Constraint Graph with atomic resource reservation and tamper-evident audit history.
@@ -101,6 +117,45 @@ export const EmployeeDashboard: React.FC = () => {
             >
               <span>View All Requests</span>
             </Link>
+          </div>
+        </div>
+
+        {/* Manager & Team Snapshot Card */}
+        <div className="relative z-10 w-full lg:w-72 bg-slate-50/80 rounded-xl border border-slate-200 p-4 space-y-3 shrink-0">
+          <div>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+              Reporting Hierarchy
+            </span>
+            <div className="flex items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200/80">
+              <img
+                src={getAvatarUrl('manager@leaveflow.internal', 'MANAGER')}
+                alt="David Kim"
+                className="w-9 h-9 rounded-full object-cover border border-slate-200"
+              />
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-bold text-slate-900 truncate">David Kim</div>
+                <div className="text-[10px] text-slate-500 truncate">L4 Manager • Approver</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
+              Team On Schedule
+            </span>
+            <div className="flex items-center justify-between">
+              <div className="flex -space-x-2 overflow-hidden">
+                {TEAM_PORTRAITS.slice(0, 5).map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt=""
+                    className="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover"
+                  />
+                ))}
+              </div>
+              <span className="text-[11px] font-bold text-slate-600 font-mono">+18 active</span>
+            </div>
           </div>
         </div>
       </div>

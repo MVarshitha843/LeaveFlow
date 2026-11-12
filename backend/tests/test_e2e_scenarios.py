@@ -1,4 +1,6 @@
 import pytest
+import uuid
+import hashlib
 from datetime import date, timedelta
 from decimal import Decimal
 from fastapi.testclient import TestClient
@@ -7,15 +9,15 @@ def test_scenario_a_leave_lifecycle_complete(client: TestClient, employee_token:
     """
     Scenario A: Employee submits leave -> EFCG evaluation -> Eligible -> Manager approval -> Commitment -> Audit.
     """
-    # 1. Employee submits leave
+    # 1. Employee submits leave (using 2027 dates to avoid overlap with 2026 dataset)
     resp = client.post(
         "/api/leave/requests",
         headers={"Authorization": f"Bearer {employee_token}"},
         json={
             "policy_id": "POL-ANNUAL",
-            "start_date": "2026-12-01",
-            "end_date": "2026-12-03",
-            "reason": "End-of-year holiday rest"
+            "start_date": "2027-04-05",
+            "end_date": "2027-04-07",
+            "reason": "Spring vacation"
         }
     )
     assert resp.status_code == 200, resp.text
@@ -76,6 +78,7 @@ def test_scenario_b_expense_lifecycle_complete(client: TestClient, employee_toke
     Scenario B: Employee submits expense -> Policy pass -> Reservation -> Manager approval -> Finance approval -> Reimbursement.
     """
     # 1. Submit $1,200 travel claim (triggers both manager + finance approval because > $1000)
+    unique_hash = hashlib.sha256(f"unique_flight_{uuid.uuid4()}".encode()).hexdigest()
     resp = client.post(
         "/api/expenses/claims",
         headers={"Authorization": f"Bearer {employee_token}"},
@@ -87,7 +90,7 @@ def test_scenario_b_expense_lifecycle_complete(client: TestClient, employee_toke
             "total_amount": 1200.00,
             "description": "Flight for Q4 Tech Conference",
             "receipt_url": "/uploads/test_flight.pdf",
-            "receipt_hash": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+            "receipt_hash": unique_hash,
             "lines": [
                 {"category": "TRAVEL", "description": "Roundtrip Airfare", "amount": 1200.00}
             ]

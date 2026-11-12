@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authApi } from '../services/api';
+import { getAvatarUrl } from '../utils/avatars';
 import {
   Lock, Mail, ArrowRight, ShieldCheck, UserCheck, AlertCircle, CheckCircle2, Sparkles
 } from 'lucide-react';
@@ -151,13 +152,20 @@ export const LoginPage: React.FC = () => {
                   disabled={loading}
                   className="w-full p-2.5 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50/50 text-left transition flex items-center justify-between group bg-slate-50/50"
                 >
-                  <div>
-                    <span className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition">
-                      {account.label}
-                    </span>
-                    <span className="text-[10px] text-slate-500 block">
-                      {account.desc}
-                    </span>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={getAvatarUrl(account.email, account.role)}
+                      alt=""
+                      className="w-9 h-9 rounded-full object-cover border border-slate-200 shrink-0 shadow-2xs"
+                    />
+                    <div>
+                      <span className="text-xs font-bold text-slate-800 group-hover:text-blue-600 transition">
+                        {account.label}
+                      </span>
+                      <span className="text-[10px] text-slate-500 block">
+                        {account.desc}
+                      </span>
+                    </div>
                   </div>
                   <UserCheck className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition" />
                 </button>

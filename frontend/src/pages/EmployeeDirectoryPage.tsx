@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { employeeApi } from '../services/api';
 import { User, Department } from '../types';
+import { getAvatarUrl } from '../utils/avatars';
 import { Users, Search, Building, Mail, Shield, UserCheck } from 'lucide-react';
 
 export const EmployeeDirectoryPage: React.FC = () => {
@@ -91,9 +92,18 @@ export const EmployeeDirectoryPage: React.FC = () => {
             ) : employees.map((emp) => (
               <tr key={emp.id} className="hover:bg-slate-50 transition">
                 <td className="py-3 px-4 font-mono font-bold text-blue-600">{emp.id}</td>
-                <td className="py-3 px-4 font-bold text-slate-900">
-                  {emp.first_name} {emp.last_name}
-                  <span className="block text-[11px] font-normal text-slate-400">{emp.email}</span>
+                <td className="py-3 px-4">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={getAvatarUrl(emp.email, emp.role)}
+                      alt=""
+                      className="w-8 h-8 rounded-full object-cover border border-slate-200 shrink-0"
+                    />
+                    <div>
+                      <span className="font-bold text-slate-900 block">{emp.first_name} {emp.last_name}</span>
+                      <span className="text-[11px] font-normal text-slate-400 block">{emp.email}</span>
+                    </div>
+                  </div>
                 </td>
                 <td className="py-3 px-4">
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
