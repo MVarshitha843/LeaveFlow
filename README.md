@@ -89,12 +89,16 @@ All demo accounts use password: `Password123!`
 
 ## 5. Getting Started on Windows
 
+### 1-Click Launch (Easiest for Reviewers)
+- **Start Platform**: Double-click `start_leaveflow.bat` (opens both Backend on :8000 and Frontend on :5173).
+- **Run Tests**: Double-click `run_tests.bat` (runs all 14 Pytest verification tests).
+
 ### Prerequisites
 - Python 3.11+
 - Node.js v18+ & npm
 - Git
 
-### Quickstart Installation Commands
+### Manual Installation & Startup Commands
 
 ```powershell
 # 1. Clone repository & enter directory
