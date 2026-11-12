@@ -15,7 +15,7 @@ Traditional HR and Expense tools process requests using opaque boolean filters, 
 
 LeaveFlow replaces opaque logic with a custom **Evidence-First Constraint Graph (EFCG)**. Instead of treating requests as isolated boolean conditions, every request is represented as an interconnected set of business constraints. Each constraint evaluates independently into three distinct states (`PASS`, `FAIL`, `REVIEW`), accumulates verifiable empirical proof, and synthesizes an explainable outcome (`ELIGIBLE`, `NEEDS_REVIEW`, `BLOCKED`).
 
-Resource allocations are managed through an atomic **Resource Reservation Ledger**, while every operational action produces a cryptographically signed, append-only **SHA-256 Hash Audit Block** forming an application-level tamper-evident chain.
+Resource allocations are managed through an atomic **Resource Reservation Ledger**, while every operational action produces a tamper-evident, append-only **SHA-256 Hash Audit Block** forming an application-level hash-linked audit chain.
 
 ---
 
@@ -102,8 +102,8 @@ All demo accounts use password: `Password123!`
 
 ```powershell
 # 1. Clone repository & enter directory
-git clone https://github.com/your-username/leaveflow.git
-cd leaveflow
+git clone https://github.com/MVarshitha843/LeaveFlow.git
+cd LeaveFlow
 
 # 2. Setup Backend Python Virtual Environment
 py -3.11 -m venv backend\venv
@@ -167,9 +167,9 @@ backend/tests/test_e2e_scenarios.py::test_scenario_d_missing_receipt_request_inf
 2. **Submit Leave Application**: Go to **Apply Leave**. Select `Annual Leave`, dates covering a weekend and holiday. Notice the live business days breakdown and EFCG pre-validation badge. Submit the request.
 3. **Inspect Interactive EFCG Visualizer**: Click **Interactive Graph**. Zoom, pan, and click constraint nodes (`Schedule Overlap Verification`, `Leave Balance Availability`, `Working Day Calculation`) to inspect the evidence inspector side drawer.
 4. **Switch to Manager Portal**: Click the active role pill in the top header and switch to **Manager Portal**. Open the **Approval Queue**, review Sarah Connor's leave request, and click **Approve**.
-5. **Verify Reservation Commitment**: View request tracking. Notice status moved to `APPROVED`, reservation ledger committed the deduction, and audit log recorded the signed approval block.
+5. **Verify Reservation Commitment**: View request tracking. Notice status moved to `APPROVED`, reservation ledger committed the deduction, and audit log recorded the hash-linked approval block.
 6. **Detect Anomaly (Split Claim / Duplicate Receipt)**: Switch to **Finance Portal** and open the **Anomaly Review Queue**. Inspect `EXP-2026-990002` (Duplicate receipt SHA-256 collision) or `EXP-2026-990004` (Rolling-window split claim pattern).
-7. **Verify Cryptographic Audit Integrity**: Navigate to **Audit Hash Ledger**. Click **Verify Cryptographic Integrity** to observe the SHA-256 block chain integrity check in real-time.
+7. **Verify Audit Chain Integrity**: Navigate to **Audit Hash Ledger**. Click **Verify Chain Integrity** to observe the tamper-evident SHA-256 hash-chain integrity check in real-time.
 8. **Export Operational Reports**: Navigate to **Reports & Exports** and download clean CSVs of leaves, expenses, and audit events.
 
 ---
@@ -178,4 +178,4 @@ backend/tests/test_e2e_scenarios.py::test_scenario_d_missing_receipt_request_inf
 
 Built by the LeaveFlow Engineering Team for the Leaveflow Challenge.  
 Architecture: Evidence-First Constraint Graph (EFCG).  
-License: MIT.
+License: Not yet specified.
