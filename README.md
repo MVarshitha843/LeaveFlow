@@ -52,7 +52,7 @@ graph TD
    - Traverses organizational reporting hierarchy (Manager $\rightarrow$ Department Head $\rightarrow$ Finance), strictly enforcing **Zero Self-Approval**.
    - Atomically holds required days or dollars in the **Resource Reservation Ledger**.
 6. **Stage 6: Proof-Carrying Audit**:
-   - Records an immutable SHA-256 block referencing predecessor hash ($H_i = \text{SHA256}(H_{i-1} + \dots)$) storing full canonical payload.
+   - Records a tamper-evident SHA-256 hash-linked audit record referencing predecessor hash ($H_i = \text{SHA256}(H_{i-1} + \dots)$) storing full canonical payload to detect payload modifications or broken links.
 
 ---
 
@@ -79,7 +79,7 @@ All demo accounts use password: `Password123!`
 | :--- | :--- | :--- | :--- |
 | **Employee** | Sarah Connor (L3 Staff) | `employee@leaveflow.internal` | Apply leave, submit expenses with receipt hashing, track requests. |
 | **Manager** | David Kim (L4 Manager) | `manager@leaveflow.internal` | Review team leave & expense queues, approve/reject/request-info with comments. |
-| **Finance** | Claire Redfield (Finance Head) | `finance@leaveflow.internal` | Review high-value claims, monitor department budgets, disburse ACH reimbursements. |
+| **Finance** | Claire Redfield (Finance Head) | `finance@leaveflow.internal` | Review high-value claims, monitor department budgets, simulate ACH reimbursement processing. |
 | **Process Owner** | Marcus Sterling (HR Policy) | `process.owner@leaveflow.internal` | Configure leave & expense policy thresholds, holiday calendar, rule versioning. |
 | **Admin** | Eleanor Vance (System Exec) | `admin@leaveflow.internal` | Full organization directory, run anomaly surveillance scans, verify audit hash integrity. |
 
@@ -176,6 +176,6 @@ backend/tests/test_e2e_scenarios.py::test_scenario_d_missing_receipt_request_inf
 
 ## 8. License & Authorship
 
-Built by the LeaveFlow Engineering Team for the Leaveflow Challenge.  
-Architecture: Evidence-First Constraint Graph (EFCG).  
+Built independently for the LeaveFlow Challenge.
+Architecture: Evidence-First Constraint Graph (EFCG).
 License: Not yet specified.
